@@ -1,0 +1,4 @@
+>Readme:
+        terminal:  cd Projeto
+        terminal:  Javac Main.java --> para compilar
+        terminal:  java Main --> para executar
