@@ -1,12 +1,19 @@
 import java.util.Scanner;
 import java.util.ArrayList;
-
+//Processa em cada switch e em cada Router para cada PC
 public class Main {
 
     public static void main(String[] args)  throws Exception{
         ArrayList<Device> dispositivos = new ArrayList<>();
         ArrayList<Device> router = new ArrayList<>();
         ArrayList<Device> Switch = new ArrayList<>();
+        ArrayList<Device> Computer = new ArrayList<>();
+        ArrayList<Device> Connection = new ArrayList<>();
+        ArrayList<Device> File = new ArrayList<>();
+        ArrayList<Device> listDevices = new ArrayList<>();
+        ArrayList<Device> removeConnection = new ArrayList<>();
+        
+
         Scanner input = new Scanner(System.in);
 
          do{
@@ -24,12 +31,19 @@ public class Main {
                     addSwitch(dispositivos, input);
                     break;   
                 case 4:
+                //simulação de enviar pacotes
                     addConnection(dispositivos, input);
                     break;    
                 case 5:
                     listDevices(dispositivos);
                     break;
                 case 6:
+                //chamar a função file.java
+
+                    break;
+
+                
+                case 7:
                     System.out.println("Saindo...");
                     input.close();
                     return;
@@ -47,7 +61,7 @@ public class Main {
         
         // MenuInicial Centro de Mecânica Rápida
          System.out.println("\n\t╔══════════════════════════════════════════════════════════════════════════════════════════════════╗");
-         System.out.println("\n\t║========================Menu de Gerenciamento de Dispositivos=====================================║");
+         System.out.println("\n\t║==============================Menu de Gerenciamento de Dispositivos===============================║");
          System.out.println("\n\t║══════════════════════════════════════════════════════════════════════════════════════════════════╢");
          System.out.println("\n\t║                                                                                                  ║");
          System.out.println("\n\t║                        1 - Adicionar Computador                                                  ║");
@@ -55,8 +69,8 @@ public class Main {
          System.out.println("\n\t║                        3 - Adicionar Switch                                                      ║");
          System.out.println("\n\t║                        4 - Adicionar Conexão                                                     ║");
          System.out.println("\n\t║                        5 - Listar Dispositivos na rede                                           ║");
-         System.out.println("\n\t║                        6 - Sair                                                                  ║");
-         System.out.println("\n\t║                        7. Listar Dispositivos por ficheiro txt em construção                     ║");
+         System.out.println("\n\t║                        6 - Listar Dispositivos por ficheiro txt em construção                    ║");                                        
+         System.out.println("\n\t║                        7 - Sair                                                                  ║");
          System.out.println("\n\t║                                                                                                  ║");
          System.out.println("\n\t╚══════════════════════════════════════════════════════════════════════════════════════════════════╝");
          System.out.println("\033[0m"); // volta a cor padrão do terminal

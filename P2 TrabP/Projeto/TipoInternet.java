@@ -2,5 +2,5 @@
 
 enum TipoInternet {
 
-    WIFI, DADOS, ETHERNET, NENHUMA;
+    WIFI, OUTRO, ETHERNET, NENHUMA;
 }
