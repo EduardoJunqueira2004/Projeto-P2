@@ -1,5 +1,5 @@
 /**
- * Representa uma conexão entre dois dispositivos em uma rede.
+ * Representa uma conexão entre dois dispositivos em uma rede, enviar pacotes de um dispositivo para outro.
  */
 
 public class Connection {
@@ -16,6 +16,7 @@ public class Connection {
      * @param destination O dispositivo de destino da conexão
      * @param type        O tipo da conexão
      */
+    
     public Connection(Device source, Device destination, String type) {
         this.source = source;
         this.destination = destination;
