@@ -1,48 +1,38 @@
 import java.util.Scanner;
-import java.util.ArrayList;
-//Processa em cada switch e em cada Router para cada PC
+import java.util.HashMap;
+import java.util.Map;
+
 public class Main {
+    static Map<String, Device> devices = new HashMap<>();
+    static Map<String, String> connections = new HashMap<>();
 
-    public static void main(String[] args)  throws Exception{
-        ArrayList<Device> dispositivos = new ArrayList<>();
-        ArrayList<Device> router = new ArrayList<>();
-        ArrayList<Device> Switch = new ArrayList<>();
-        ArrayList<Device> Computer = new ArrayList<>();
-        ArrayList<Device> Connection = new ArrayList<>();
-        ArrayList<Device> File = new ArrayList<>();
-        ArrayList<Device> listDevices = new ArrayList<>();
-        ArrayList<Device> removeConnection = new ArrayList<>();
-        
-
+    public static void main(String[] args) {
         Scanner input = new Scanner(System.in);
 
-         do{
+        do {
             imprimirMenu();
             int opcao = input.nextInt();
+            input.nextLine(); // Limpa o buffer do scanner
 
             switch (opcao) {
                 case 1:
-                    addComputer(dispositivos, input);
+                    addDevice(new Computer(), input);
                     break;
                 case 2:
-                    addRouter(dispositivos, input);
+                    addDevice(new Router(), input);
                     break;
                 case 3:
-                    addSwitch(dispositivos, input);
-                    break;   
+                    addDevice(new Switch(), input);
+                    break;
                 case 4:
-                //simulação de enviar pacotes
-                    addConnection(dispositivos, input);
-                    break;    
+                    addConnection(input);
+                    break;
                 case 5:
-                    listDevices(dispositivos);
+                    listDevices();
                     break;
                 case 6:
-                //chamar a função file.java
-
+                    listDevicesFromFile();
                     break;
-
-                
                 case 7:
                     System.out.println("Saindo...");
                     input.close();
@@ -51,160 +41,80 @@ public class Main {
                     System.out.println("Opção inválida. Por favor, tente novamente.");
                     break;
             }
-            } while (true);
-
+        } while (true);
     }
 
     private static void imprimirMenu() {
-        //Cor azul ciano
-        System.out.println("\033[1;36m");
-        
-        // MenuInicial Centro de Mecânica Rápida
-         System.out.println("\n\t╔══════════════════════════════════════════════════════════════════════════════════════════════════╗");
-         System.out.println("\n\t║==============================Menu de Gerenciamento de Dispositivos===============================║");
-         System.out.println("\n\t║══════════════════════════════════════════════════════════════════════════════════════════════════╢");
-         System.out.println("\n\t║                                                                                                  ║");
-         System.out.println("\n\t║                        1 - Adicionar Computador                                                  ║");
-         System.out.println("\n\t║                        2 - Adicionar Router                                                      ║");
-         System.out.println("\n\t║                        3 - Adicionar Switch                                                      ║");
-         System.out.println("\n\t║                        4 - Adicionar Conexão                                                     ║");
-         System.out.println("\n\t║                        5 - Listar Dispositivos na rede                                           ║");
-         System.out.println("\n\t║                        6 - Listar Dispositivos por ficheiro txt em construção                    ║");                                        
-         System.out.println("\n\t║                        7 - Sair                                                                  ║");
-         System.out.println("\n\t║                                                                                                  ║");
-         System.out.println("\n\t╚══════════════════════════════════════════════════════════════════════════════════════════════════╝");
-         System.out.println("\033[0m"); // volta a cor padrão do terminal
+        System.out.println("\nMenu de Gerenciamento de Dispositivos:");
+        System.out.println("1 - Adicionar Computador");
+        System.out.println("2 - Adicionar Router");
+        System.out.println("3 - Adicionar Switch");
+        System.out.println("4 - Adicionar Conexão"); 
+        System.out.println("5 - Listar Dispositivos na rede");
+        System.out.println("6 - Listar Dispositivos por arquivo"); 
+        System.out.println("7 - Sair");
         System.out.print("\nEscolha uma opção: ");
     }
-//Para o computador
-private static void addComputer(ArrayList<Device> devices, Scanner input)
-{
-    //Cor azul ciano
-        System.out.println("\033[1;36m");
-    System.out.println("Digite o ID do computador: ");
-    String id = input.next();
-    System.out.println("\nDigite o nome do computador: ");
-    String name = input.next();
-    System.out.println("\nDigite o IP do computador: ");
-    String ip = input.next();
-    System.out.println("\nDigite o MAC do computador: ");
-    String mac = input.next();
-    System.out.println("\nDigite o gateway do computador: ");
-    String gateway = input.next();
-    System.out.println("\nDigite o netmask do computador: ");
-    String netmask = input.next();
-    System.out.println("\nDigite o DNS do computador: ");
-    String dns = input.next();
-    Device dispositivo = new Computer(id, name, ip, mac, gateway, netmask, dns);
-    devices.add(dispositivo);
-    System.out.println("\033[0m"); // volta a cor padrão do terminal
 
-}
+    private static void addDevice(Device device, Scanner input) {
+        System.out.println("Digite o ID do dispositivo: ");
+        String id = input.nextLine();
+        System.out.println("Digite o nome do dispositivo: ");
+        String name = input.nextLine();
+        System.out.println("Digite o IP do dispositivo: ");
+        String ip = input.nextLine();
+        System.out.println("Digite o MAC do dispositivo: ");
+        String mac = input.nextLine();
+        System.out.println("Digite o gateway do dispositivo: ");
+        String gateway = input.nextLine();
+        System.out.println("Digite o netmask do dispositivo: ");
+        String netmask = input.nextLine();
+        System.out.println("Digite o DNS do dispositivo: ");
+        String dns = input.nextLine();
 
-//Para o router
-private static void addRouter(ArrayList<Device> devices, Scanner input) {
-   //Cor azul ciano
-        System.out.println("\033[1;36m");
+        device.id = id;
+        device.name = name;
+        device.ip = ip;
+        device.mac = mac;
+        device.gateway = gateway;
+        device.netmask = netmask;
+        device.dns = dns;
 
-    System.out.println("Digite o ID do roteador: ");
-    String id = input.next();
-    System.out.println("\033[0mDigite o nome do roteador: "); // Reseta a cor
-    String name = input.next();
-    System.out.println("Digite o IP do roteador: ");
-    String ip = input.next();
-    System.out.println("Digite o MAC do roteador: ");
-    String mac = input.next();
-    System.out.println("Digite o gateway do roteador: ");
-    String gateway = input.next();
-    System.out.println("Digite o netmask do roteador: ");
-    String netmask = input.next();
-    System.out.println("Digite o DNS do roteador: ");
-    String dns = input.next();
+        devices.put(id, device);
+        System.out.println("Dispositivo adicionado com sucesso!");
+    }
 
-    // Supondo que a classe Router tem um construtor que aceita todos esses argumentos
-    Device router = new Router(id, name, ip, mac, gateway, netmask, dns);
-    devices.add(router); // Adiciona o dispositivo à lista
-    System.out.println("\033[0m"); // volta a cor padrão do terminal 
-}
-
-private static void addSwitch(ArrayList<Device> devices, Scanner input)
-{
-    //Cor azul ciano
-        System.out.println("\033[1;36m");
-
-    System.out.println("Digite o ID do Switch : ");
-    String id = input.next();
-    System.out.println("\nDigite o nome do Switch: ");
-    String name = input.next();
-    System.out.println("\nDigite o IP  de Destino do Switch: ");
-    String ip_origem = input.next();
-    System.out.println("\nDigite o IP  de Origem do Switch: ");
-    String ip_destino = input.next();
-    System.out.println("\nDigite o MAC  de Destino do Switch: ");
-    String mac_origem = input.next();
-    System.out.println("\nDigite o MAC  de Origem do Switch: ");
-    String mac_destino = input.next();
-    System.out.println("\nDigite o netmask do Switch: ");
-    String netmask = input.next();
-    System.out.println("\nDigite o DNS do Switch: ");
-    String dns = input.next();
-    System.out.println("\nDigite o protocolo do Switch: ");
-    String protocolo = input.next();
-
-     // Supondo que a classe Router tem um construtor que aceita todos esses argumentos
-    //Está a dar erro-->Device Switch = new Switch(id, name, ip_origem, ip_destino, mac_origem, mac_destino, netmask, dns, protocolo);
-    //Está a dar erro-->devices.add(Switch);
-
-    System.out.println("\033[0m"); // volta a cor padrão do terminal
-}
-
-private static void addConnection(ArrayList<Device> devices, Scanner input)
-{
-    //em construção
-     //Cor azul ciano
-        System.out.println("\033[1;36m");
-
-    System.out.println("\nDigite o ID do dispositivo 1: ");
-    String id1 = input.next();
-    System.out.println("\nDigite o ID do dispositivo 2: ");
-    String id2 = input.next();
-    System.out.println("\nDigite o tipo de conexão: ");
-    String type = input.next();
-
-    System.out.println("\033[0m"); // volta a cor padrão do terminal
-}
-
-
-private static void removeConnection(ArrayList<Device> devices, Scanner input)
-{
-//Ver package .utils em construção
-    //Cor azul ciano
-        System.out.println("\033[1;36m");
-    System.out.println("\nDigite o ID do dispositivo 1: ");
-    String id1 = input.next();
-    System.out.println("\nDigite o ID do dispositivo 2: ");
-    String id2 = input.next();
-    System.out.println("\nDigite o tipo de conexão: ");
-    String type = input.next();
-
-     System.out.println("\033[0m"); // volta a cor padrão do terminal
-
-}
-
-
-private static void listDevices(ArrayList<Device> devices) {
-     //Verificar
-    //Cor azul ciano
-        System.out.println("\033[1;36m");
-
-        System.out.println("Listando dispositivos:");
-        for (Device device : devices) {
-            System.out.println(device);
-        }
+    private static void listDevices() {
         if (devices.isEmpty()) {
             System.out.println("Nenhum dispositivo cadastrado.");
+            return;
         }
-        System.out.println("\033[0m"); // volta a cor padrão do terminal
+        for (Device device : devices.values()) {
+            System.out.println(device);
+        }
     }
-    
+
+    private static void addConnection(Scanner input) {
+        System.out.println("Digite o ID do dispositivo de origem: ");
+        String sourceId = input.nextLine();
+        System.out.println("Digite o ID do dispositivo de destino: ");
+        String destinationId = input.nextLine();
+
+        if (!devices.containsKey(sourceId) || !devices.containsKey(destinationId)) {
+            System.out.println("Um ou ambos os dispositivos não existem.");
+            return;
+        }
+
+        connections.put(sourceId, destinationId);
+        System.out.println("Conexão adicionada com sucesso entre " + sourceId + " e " + destinationId);
+    }
+
+    private static void listDevicesFromFile() {
+        
+        System.out.println("Listando dispositivos a partir de um arquivo (funcionalidade simulada):");
+        // Simulação: mostrar alguns dispositivos
+        System.out.println("ID: comp123, Name: Computador1, IP: 192.168.1.2, MAC: AA:BB:CC:DD:EE:FF");
+        System.out.println("ID: rout456, Name: Roteador1, IP: 192.168.1.1, MAC: FF:EE:DD:CC:BB:AA");
+        // Continuar com a simulação ou implementar a leitura real do arquivo
+    }
 }
