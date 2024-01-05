@@ -5,7 +5,7 @@
 public class Connection {
     private Device source;       // Dispositivo de origem da conexão
     private Device destination;  // Dispositivo de destino da conexão
-    private String type;         // Tipo de conexão (ex: Ethernet, Wi-Fi)
+    private TipoInternet type;         // Tipo de conexão (ex: Ethernet, Wi-Fi)
 
     //Getter's e Setter's
 
@@ -17,7 +17,7 @@ public class Connection {
      * @param type        O tipo da conexão
      */
     
-    public Connection(Device source, Device destination, String type) {
+    public Connection(Device source, Device destination, TipoInternet type) {
         this.source = source;
         this.destination = destination;
         this.type = type;
@@ -33,10 +33,7 @@ public class Connection {
         return this.destination;
     }
 
-    public String getType() {
-        return this.type;
-    }
-
+    
     public void setSource(Device source) {
         this.source = source;
     }
