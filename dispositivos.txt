@@ -1,0 +1,24 @@
+ID: 24
+Nome: Sergio
+IP: 192.63.0.3
+MAC: ABCD
+Gateway: 255.255.255.0
+Netmask: 255.255.255.0
+DNS: 8.8.8.8
+
+ID: 39
+Nome: Sergio
+IP: 192.168.0.10
+MAC: ABCDF
+Gateway: 255.255.255.0
+Netmask: 255.255.255.0
+DNS: 8.8.8.8
+
+ID: 24
+Nome: Sergio
+IP: 192.1680.0.
+MAC: 344234
+Gateway: 423432
+Netmask: 423432
+DNS: 234324
+

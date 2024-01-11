@@ -2,10 +2,11 @@
  * Representa uma conexão entre dois dispositivos em uma rede, enviar pacotes de um dispositivo para outro.
  */
 
-public class Connection {
+public class Connection extends Main{
     private Device source;       // Dispositivo de origem da conexão
     private Device destination;  // Dispositivo de destino da conexão
-    private TipoInternet type;         // Tipo de conexão (ex: Ethernet, Wi-Fi)
+    private TipoInternet tipo;         // Tipo de conexão (ex: Ethernet, Wi-Fi)
+    private String connection;
 
     //Getter's e Setter's
 
@@ -17,10 +18,11 @@ public class Connection {
      * @param type        O tipo da conexão
      */
     
-    public Connection(Device source, Device destination, TipoInternet type) {
+    public Connection(Device source, Device destination, TipoInternet tipo, String connection) {
         this.source = source;
         this.destination = destination;
-        this.type = type;
+        this.tipo = tipo;
+        this.connection=connection;
     }
 
     // Getters e Setters
@@ -42,13 +44,20 @@ public class Connection {
         this.destination = destination;
     }
 
-    public void setType(String type) {
-        this.type = type;
+    public void setType(TipoInternet tipo) {
+        this.tipo = tipo;
+    }
+
+    public String getConnection() {
+        return connection;
+    }
+    public void setConnection(String connection) {
+        this.connection = connection;
     }
     //to string
     @Override
     public String toString() {
-        return "Connection{" + "source=" + source + ", destination=" + destination + ", type=" + type + '}';
+        return "Connection{" + "source=" + source + ", destination=" + destination + ", type=" + tipo + ", connection=" + connection +'}';
     }
     
 }

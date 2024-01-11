@@ -90,4 +90,9 @@ public class Device extends Main{
     public String toString() {
         return "ID: " + this.id + "\nNome: " + this.name + "\nIP: " + this.IP + "\nMAC: " + this.MAC + "\nGateway: " + this.gateway + "\nNetmask: " + this.netmask + "\nDNS: " + this.dns + "\n";
     }
+
+    public Connection[] getConnections() {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'getConnections'");
+    }
 }
