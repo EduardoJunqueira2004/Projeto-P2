@@ -3,13 +3,12 @@ import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.InputMismatchException;
 //Processa em cada switch e em cada Router para cada PC
 public class Main {
 
     public static void main(String[] args)  throws Exception{
         ArrayList<Device> dispositivos = new ArrayList<>();
-        
-
         Scanner input = new Scanner(System.in);
 
          do{
@@ -30,7 +29,7 @@ public class Main {
                    simulatePacketTransfer(dispositivos, input);
                     break;    
                 case 5:
-                    listDevices(dispositivos);
+                    listDevices(dispositivos, input);
                     break;
                 case 6:
                     listDevicesTxt(dispositivos);
@@ -54,6 +53,7 @@ public class Main {
 
         
         // MenuInicial Centro de Mecânica Rápida
+        clearScreen();
          System.out.println("\n\t╔══════════════════════════════════════════════════════════════════════════════════════════════════╗");
          System.out.println("\n\t║==============================Menu de Gerenciamento de Dispositivos===============================║");
          System.out.println("\n\t║══════════════════════════════════════════════════════════════════════════════════════════════════╢");
@@ -76,6 +76,7 @@ public class Main {
 private static void addComputer(ArrayList<Device> devices, Scanner input)
 {
     //Cor azul ciano
+    clearScreen();
         System.out.println("\033[1;36m");
     System.out.println("Digite o ID do computador: ");
     String id = input.next();
@@ -102,6 +103,8 @@ private static void addRouter(ArrayList<Device> devices, Scanner input) {
    //Cor azul ciano
         System.out.println("\033[1;36m");
 
+    clearScreen();
+
     System.out.println("Digite o ID do roteador: ");
     String id = input.next();
     System.out.println("\033[0mDigite o nome do roteador: "); // Reseta a cor
@@ -126,6 +129,7 @@ private static void addRouter(ArrayList<Device> devices, Scanner input) {
 private static void addSwitch(ArrayList<Device> devices, Scanner input)
 {
     //Cor azul ciano
+    clearScreen();
         System.out.println("\033[1;36m");
 
     System.out.println("Digite o ID do Switch : ");
@@ -155,25 +159,73 @@ private static void addSwitch(ArrayList<Device> devices, Scanner input)
 }
 
 
-private static void listDevices(ArrayList<Device> devices) {
-     //Verificar
-    //Cor azul ciano
-        System.out.println("\033[1;36m");
-
+private static void listDevices(ArrayList<Device> devices, Scanner input) {
+    int choice; // Declaração da variável choice antes do loop
+    
+    do {
+        clearScreen();
+        System.out.println("\033[1;36m"); // Cor azul ciano
         System.out.println("Listando dispositivos:");
-        for (Device device : devices) {
-            System.out.println(device);
-        }
+
         if (devices.isEmpty()) {
             System.out.println("Nenhum dispositivo cadastrado.");
+        } else {
+            for (Device device : devices) {
+                String deviceType = "Dispositivo"; // Tipo genérico se não for nenhum dos tipos conhecidos
+
+                if (device instanceof Computer) {
+                    deviceType = "Computador";
+                } else if (device instanceof Router) {
+                    deviceType = "Router";
+                } else if (device instanceof Switch) {
+                    deviceType = "Switch";
+                }
+
+                System.out.println(deviceType + ": " + device);
+            }
         }
-        System.out.println("\033[0m"); // volta a cor padrão do terminal
-    }
+
+        System.out.println("\033[0m"); // Volta a cor padrão do terminal
+
+        // Mini-menu após a listagem
     
+        System.out.println("Escolha uma opção:");
+        System.out.println("1 - Voltar ao menu principal");
+        System.out.println("2 - Sair do programa");
+        System.out.print("Opção: ");
 
-
- private static void listDevicesTxt(ArrayList<Device> devices) {
         try {
+            choice = input.nextInt();
+        } catch (InputMismatchException e) {
+            System.out.println("Entrada inválida. Por favor, insira um número.");
+            input.next(); // Limpa o buffer do scanner
+            continue; // Continua no loop para que o usuário possa tentar novamente
+        }
+
+        switch (choice) {
+            case 1:
+                return; // Retorna ao menu principal
+            case 2:
+                System.out.println("Saindo do programa...");
+                input.close(); // Fechar o scanner antes de sair
+                System.exit(0); // Sai do programa
+                break;
+            default:
+                System.out.println("Opção inválida. Por favor, tente novamente.");
+                break;
+        }
+    do {
+        // Rest of the code
+
+    } while (choice != 2);
+    } while (true);
+}
+
+
+    
+private static void listDevicesTxt(ArrayList<Device> devices) {
+        try {
+            clearScreen();
             String nomeArquivo = "dispositivos.txt";
             BufferedWriter writer = new BufferedWriter(new FileWriter(nomeArquivo));
             for (Device device : devices) {
@@ -189,6 +241,7 @@ private static void listDevices(ArrayList<Device> devices) {
 
 
 private static void sendPacket(Device source, Device destination, String packetData) {
+    clearScreen();
     System.out.println("Enviando pacote de " + source.getName() + " para " + destination.getName() + " com dados: " + packetData);
     
     if (!source.getNetmask().equals(destination.getNetmask())) {
@@ -205,6 +258,7 @@ private static void sendPacket(Device source, Device destination, String packetD
 }
 
 private static void simulatePacketTransfer(ArrayList<Device> devices, Scanner input) {
+    clearScreen();
     System.out.println("\033[1;36m");
     System.out.println("Simulação de envio de pacotes");
     System.out.println("Digite o ID do dispositivo de origem: ");
@@ -242,6 +296,25 @@ private static boolean isReachable(Device source, Device destination) {
         }
     }
     return false;
+}
+
+
+public static void clearScreen() {
+    try {
+        String os = System.getProperty("os.name");
+
+        if (os.contains("Windows")) {
+            new ProcessBuilder("cmd", "/c", "cls").inheritIO().start().waitFor();
+        } else {
+            System.out.print("\033[H\033[2J");  
+            System.out.flush();  
+            // Em ambientes Unix, isso limpará a tela do terminal.
+            // O comando 'clear' também pode ser usado da seguinte forma:
+            // new ProcessBuilder("clear").inheritIO().start().waitFor();
+        }
+    } catch (IOException | InterruptedException ex) {
+        ex.printStackTrace();
+    }
 }
 
 }
