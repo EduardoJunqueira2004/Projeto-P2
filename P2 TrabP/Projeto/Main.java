@@ -35,6 +35,9 @@ public class Main {
                     listDevicesTxt(dispositivos);
                     break;
                 case 7:
+                    removeAllDevices(dispositivos, input);
+                    break;
+                case 8:
                     System.out.println("Saindo...");
                     input.close();
                     return;
@@ -53,7 +56,7 @@ public class Main {
 
         
         // MenuInicial Centro de Mecânica Rápida
-        clearScreen();
+         
          System.out.println("\n\t╔══════════════════════════════════════════════════════════════════════════════════════════════════╗");
          System.out.println("\n\t║==============================Menu de Gerenciamento de Dispositivos===============================║");
          System.out.println("\n\t║══════════════════════════════════════════════════════════════════════════════════════════════════╢");
@@ -63,8 +66,9 @@ public class Main {
          System.out.println("\n\t║                        3 - Adicionar Switch                                                      ║");
          System.out.println("\n\t║                        4 - Simulação Rede                                                        ║");
          System.out.println("\n\t║                        5 - Listar Dispositivos na rede                                           ║");
-         System.out.println("\n\t║                        6 - Listar Dispositivos Ficheiro Txt                                      ║");                                        
-         System.out.println("\n\t║                        7 - Sair                                                                  ║");
+         System.out.println("\n\t║                        6 - Relátorio Dispositivos TXT                                            ║");
+         System.out.println("\n\t║                        7 - Remover Todos os Dispositivos                                         ║");                                                 
+         System.out.println("\n\t║                        8 - Sair                                                                  ║");
          System.out.println("\n\t║                                                                                                  ║");
          System.out.println("\n\t╚══════════════════════════════════════════════════════════════════════════════════════════════════╝");
          System.out.println("\033[0m"); // volta a cor padrão do terminal
@@ -174,11 +178,11 @@ private static void listDevices(ArrayList<Device> devices, Scanner input) {
                 String deviceType = "Dispositivo"; // Tipo genérico se não for nenhum dos tipos conhecidos
 
                 if (device instanceof Computer) {
-                    deviceType = "Computador";
+                    deviceType = "Computador\n";
                 } else if (device instanceof Router) {
-                    deviceType = "Router";
+                    deviceType = "Router\n";
                 } else if (device instanceof Switch) {
-                    deviceType = "Switch";
+                    deviceType = "Switch\n";
                 }
 
                 System.out.println(deviceType + ": " + device);
@@ -259,30 +263,42 @@ private static void sendPacket(Device source, Device destination, String packetD
 
 private static void simulatePacketTransfer(ArrayList<Device> devices, Scanner input) {
     clearScreen();
-    System.out.println("\033[1;36m");
-    System.out.println("Simulação de envio de pacotes");
-    System.out.println("Digite o ID do dispositivo de origem: ");
-    String sourceId = input.next();
-    System.out.println("Digite o ID do dispositivo de destino: ");
-    String destinationId = input.next();
-    System.out.println("Digite os dados do pacote: ");
+    System.out.println("\033[1;36m"); // Cor azul ciano
+    System.out.println("Dispositivos disponíveis e seus IPs:");
+    
+    if (devices.isEmpty()) {
+        System.out.println("Nenhum dispositivo cadastrado.");
+        return; // Retorna ao menu anterior se não houver dispositivos
+    }
+    
+    // Listando todos os dispositivos com seus IPs
+    for (Device device : devices) {
+        System.out.println(device.getName() + " - IP: " + device.getIP());
+    }
+
+    System.out.println("Digite o IP do dispositivo de origem para a simulação de envio de pacotes:");
+    String sourceIp = input.next();
+    System.out.println("Digite o IP do dispositivo de destino:");
+    String destinationIp = input.next();
+    System.out.println("Digite os dados do pacote:");
     String packetData = input.next();
 
-    Device source = findDeviceById(devices, sourceId);
-    Device destination = findDeviceById(devices, destinationId);
+    Device source = findDeviceByIp(devices, sourceIp);
+    Device destination = findDeviceByIp(devices, destinationIp);
 
     if (source != null && destination != null) {
         sendPacket(source, destination, packetData);
     } else {
-        System.out.println("Dispositivo não encontrado.");
+        System.out.println("Dispositivo com o IP fornecido não encontrado.");
     }
 
-    System.out.println("\033[0m");
+    System.out.println("\033[0m"); // Volta a cor padrão do terminal
 }
 
-private static Device findDeviceById(ArrayList<Device> devices, String id) {
+
+private static Device findDeviceByIp(ArrayList<Device> devices, String ip) {
     for (Device device : devices) {
-        if (device.getId().equals(id)) {
+        if (device.getIP().equals(ip)) {
             return device;
         }
     }
@@ -314,6 +330,19 @@ public static void clearScreen() {
         }
     } catch (IOException | InterruptedException ex) {
         ex.printStackTrace();
+    }
+}
+
+private static void removeAllDevices(ArrayList<Device> dispositivos, Scanner input) {
+    clearScreen();
+    System.out.println("\033[1;36m");
+    System.out.println("Tem certeza de que deseja remover todos os dispositivos? (sim/não)");
+    String resposta = input.next().trim().toLowerCase();
+    if (resposta.equals("sim")) {
+        dispositivos.clear();
+        System.out.println("Todos os dispositivos foram removidos.");
+    } else {
+        System.out.println("A remoção de todos os dispositivos foi cancelada.");
     }
 }
 
