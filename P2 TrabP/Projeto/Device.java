@@ -92,7 +92,6 @@ public class Device extends Main{
     }
 
     public Connection[] getConnections() {
-        // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'getConnections'");
     }
 }

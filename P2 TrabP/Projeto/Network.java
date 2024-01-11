@@ -4,12 +4,10 @@ import java.util.ArrayList;
 public class Network 
 {
     private ArrayList<Device> devices;
-    private ArrayList<Connection> connections;
     
     public Network() 
     {
         devices = new ArrayList<Device>();
-        connections = new ArrayList<Connection>();	
     }
     //Adiciona um dispositivo na rede
     public void addDevice(Device device) 
