@@ -4,11 +4,16 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.InputMismatchException;
+import java.util.List;
 //Processa em cada switch e em cada Router para cada PC
 public class Main {
 
+    private static List<Packet> packetHistory = new ArrayList<>();
+
     public static void main(String[] args)  throws Exception{
         ArrayList<Device> dispositivos = new ArrayList<>();
+        
+        
         Scanner input = new Scanner(System.in);
 
          do{
@@ -228,37 +233,43 @@ private static void listDevices(ArrayList<Device> devices, Scanner input) {
 
     
 private static void listDevicesTxt(ArrayList<Device> devices) {
-        try {
-            clearScreen();
-            String nomeArquivo = "dispositivos.txt";
-            BufferedWriter writer = new BufferedWriter(new FileWriter(nomeArquivo));
-            for (Device device : devices) {
-                writer.write(device.toString());
-                writer.newLine();
-            }
-            writer.close();
-            System.out.println("Arquivo criado com sucesso!\n");
-        } catch (IOException e) {
-            System.out.println("Erro ao criar arquivo!\n");
+    try {
+        clearScreen();
+        String nomeArquivoDevices = "dispositivos.txt";
+        BufferedWriter writer = new BufferedWriter(new FileWriter(nomeArquivoDevices));
+        for (Device device : devices) {
+            writer.write(device.toString());
+            writer.newLine();
         }
-    }
+        writer.close();
+        System.out.println("Arquivo de dispositivos criado com sucesso!\n");
 
+        // Escrevendo o histórico de pacotes em um arquivo separado
+        String nomeArquivoPackets = "historico_pacotes.txt";
+        writePacketHistoryToFile(nomeArquivoPackets);
+
+    } catch (IOException e) {
+        System.out.println("Erro ao criar arquivo de dispositivos!\n");
+    }
+}
 
 private static void sendPacket(Device source, Device destination, String packetData) {
+    
     clearScreen();
     System.out.println("Enviando pacote de " + source.getName() + " para " + destination.getName() + " com dados: " + packetData);
-    
+
     if (!source.getNetmask().equals(destination.getNetmask())) {
         System.out.println("Os dispositivos não estão na mesma sub-rede.");
         return;
     }
-    
+
     if (!isReachable(source, destination)) {
         System.out.println("Dispositivo de destino não está acessível.");
         return;
     }
-    
+
     System.out.println("Pacote enviado de " + source.getName() + " para " + destination.getName() + " com dados: " + packetData);
+    packetHistory.add(new Packet(source, destination, packetData));
 }
 
 private static void simulatePacketTransfer(ArrayList<Device> devices, Scanner input) {
@@ -306,14 +317,8 @@ private static Device findDeviceByIp(ArrayList<Device> devices, String ip) {
 }
 
 private static boolean isReachable(Device source, Device destination) {
-    for (Connection connection : source.getConnections()) {
-        if (connection.getDestination().equals(destination)) {
-            return true;
-        }
-    }
-    return false;
+    return source.getNetmask().equals(destination.getNetmask());
 }
-
 
 public static void clearScreen() {
     try {
@@ -343,6 +348,22 @@ private static void removeAllDevices(ArrayList<Device> dispositivos, Scanner inp
         System.out.println("Todos os dispositivos foram removidos.");
     } else {
         System.out.println("A remoção de todos os dispositivos foi cancelada.");
+    }
+}
+
+
+private static void writePacketHistoryToFile(String nomeArquivo) {
+    ArrayList<Packet> packetHistory = new ArrayList<>(); // Declare and initialize packetHistory variable
+    
+    try (BufferedWriter writer = new BufferedWriter(new FileWriter(nomeArquivo, true))) { // O true é para append
+        for (Packet packet : packetHistory) {
+            writer.write(packet.toString());
+            writer.newLine();
+        }
+        System.out.println("Histórico de pacotes gravado em: " + nomeArquivo);
+    } catch (IOException e) {
+        System.out.println("Erro ao escrever o histórico de pacotes no arquivo.");
+        e.printStackTrace();
     }
 }
 
