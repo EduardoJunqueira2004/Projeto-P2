@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.InputMismatchException;
 import java.util.List;
+import java.util.Random;
 //Processa em cada switch e em cada Router para cada PC
 public class Main {
 
@@ -96,10 +97,10 @@ private static void addComputer(ArrayList<Device> devices, Scanner input) {
     String id = input.next();
     System.out.print("Digite o nome do computador: ");
     String name = input.next();
-    System.out.print("Digite o IP do computador: ");
-    String ip = input.next();
+    String randomIp = generateRandomIp();
+    System.out.println("Endereço IP gerado aleatoriamente: " + randomIp);
 
-    if (!isUniqueIdAndIp(devices, id, ip)) {
+    if (!isUniqueIdAndIp(devices, id, randomIp)) {
         System.out.println("Erro: Um computador com esse ID ou IP já existe.");
         System.out.println("1 - Voltar ao menu principal");
         System.out.println("2 - Sair do programa");
@@ -139,7 +140,7 @@ private static void addComputer(ArrayList<Device> devices, Scanner input) {
     System.out.print("Digite o DNS do computador: ");
     String dns = input.next();
 
-    Device computer = new Computer(id, name, ip, mac, gateway, netmask, dns);
+    Device computer = new Computer(id, name, randomIp, mac, gateway, netmask, dns);
     devices.add(computer);
     System.out.println("Computador adicionado com sucesso!");
     System.out.println("\033[0m"); // Volta a cor padrão do terminal
@@ -156,8 +157,8 @@ private static void addRouter(ArrayList<Device> devices, Scanner input) {
     String id = input.next();
     System.out.println("\033[0mDigite o nome do roteador: "); // Reseta a cor
     String name = input.next();
-    System.out.println("Digite o IP do roteador: ");
-    String ip = input.next();
+    String randomIp = generateRandomIp();
+    System.out.println("Endereço IP gerado aleatoriamente: " + randomIp);
     System.out.println("Digite o MAC do roteador: ");
     String mac = input.next();
     System.out.println("Digite o gateway do roteador: ");
@@ -168,7 +169,7 @@ private static void addRouter(ArrayList<Device> devices, Scanner input) {
     String dns = input.next();
 
     // Supondo que a classe Router tem um construtor que aceita todos esses argumentos
-    Device router = new Router(id, name, ip, mac, gateway, netmask, dns);
+    Device router = new Router(id, name, randomIp, mac, gateway, netmask, dns);
     devices.add(router); // Adiciona o dispositivo à lista
     System.out.println("\033[0m"); // volta a cor padrão do terminal 
 }
@@ -415,6 +416,15 @@ private static boolean isUniqueIdAndIp(ArrayList<Device> devices, String id, Str
         }
     }
     return true; // ID e IP são únicos
+}
+
+private static Random random = new Random();
+
+public static String generateRandomIp() {
+    return random.nextInt(256) + "." + 
+           random.nextInt(256) + "." + 
+           random.nextInt(256) + "." + 
+           random.nextInt(256);
 }
 
 }
