@@ -3,53 +3,63 @@ import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
+
 import java.util.InputMismatchException;
-//Processa em cada switch e em cada Router para cada PC
 public class Main {
 
     public static void main(String[] args)  throws Exception{
         ArrayList<Device> dispositivos = new ArrayList<>();
         Scanner input = new Scanner(System.in);
 
-         do{
+        do {
             imprimirMenu();
             int opcao = input.nextInt();
 
-            switch (opcao) {
-                case 1:
-                    addComputer(dispositivos, input);
-                    break;
-                case 2:
-                    addRouter(dispositivos, input);
-                    break;
-                case 3:
-                    addSwitch(dispositivos, input);
-                    break;   
-                case 4:
-                   simulatePacketTransfer(dispositivos, input);
-                    break;    
-                case 5:
-                    listDevices(dispositivos, input);
-                    break;
-                case 6:
-                    listDevicesTxt(dispositivos);
-                    break;
-                case 7:
-                    System.out.println("Saindo...");
-                    input.close();
-                    return;
-                default:
-                    System.out.println("Opção inválida. Por favor, tente novamente.");
-                    break;
+            System.out.print("Escolha uma opção (1-7): ");
+            String linha = input.nextLine(); // Lê a linha inteira como uma string
+            try {
+                opcao = Integer.parseInt(linha); // Tenta converter a linha para um inteiro
+        
+                switch (opcao) {
+                    case 1:
+                        addComputer(dispositivos, input);
+                        break;
+                    case 2:
+                        addRouter(dispositivos, input);
+                        break;
+                    case 3:
+                        addSwitch(dispositivos, input);
+                        break;
+                    case 4:
+                        simulatePacketTransfer(dispositivos, input);
+                        break;
+                    case 5:
+                        listDevices(dispositivos, input);
+        
+                        break;
+                    case 6:
+                        listDevicesTxt(dispositivos);
+                        break;
+                    case 7:
+                        System.out.println("Saindo...");
+                        input.close();
+                        return; // Encerra o programa
+                    default:
+                        System.out.println("Opção inválida! Por favor, insira um número de 1 a 7.");
+                }
+            } catch (NumberFormatException e) {
+                System.out.println("Entrada inválida! Por favor, insira um número de 1 a 7.");
             }
-            } while (true);
+        } while (true);
+    }        
+            
 
-    }
+    public static void imprimirMenu() {
+        // Code for menu printing goes here
 
-    private static void imprimirMenu() {
         //Cor azul ciano
         System.out.println("\033[1;36m");
-    
+        //while(!(menuInicial >= '1' && menuInicial <= '4'));
 
         
         // MenuInicial Centro de Mecânica Rápida
@@ -69,7 +79,9 @@ public class Main {
          System.out.println("\n\t╚══════════════════════════════════════════════════════════════════════════════════════════════════╝");
          System.out.println("\033[0m"); // volta a cor padrão do terminal
         System.out.print("\nEscolha uma opção: ");
+    
         }
+        
         
 
 //Para o computador
@@ -123,6 +135,7 @@ private static void addRouter(ArrayList<Device> devices, Scanner input) {
     // Supondo que a classe Router tem um construtor que aceita todos esses argumentos
     Device router = new Router(id, name, ip, mac, gateway, netmask, dns);
     devices.add(router); // Adiciona o dispositivo à lista
+    
     System.out.println("\033[0m"); // volta a cor padrão do terminal 
 }
 
