@@ -3,6 +3,7 @@ import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.InputMismatchException;
 import java.util.List;
 import java.util.Random;
@@ -19,6 +20,7 @@ public class Main {
 
 do {
     
+    clearScreen();
     imprimirMenu();
     System.out.print("Escolha uma opção (1-8): ");
     String linha = input.nextLine(); // Lê a linha inteira como uma string
@@ -180,36 +182,53 @@ private static void addRouter(ArrayList<Device> devices, Scanner input) {
     System.out.println("\033[0m"); // volta a cor padrão do terminal 
 }
 
-private static void addSwitch(ArrayList<Device> devices, Scanner input)
-{
-    //Cor azul ciano
-    clearScreen();
-        System.out.println("\033[1;36m");
+private static void addSwitch(ArrayList<Device> devices, Scanner input) {
+    System.out.println("\033[1;36m");
 
-    System.out.println("Digite o ID do Switch : ");
+    System.out.print("Digite o ID do Switch: ");
     String id = input.next();
-    System.out.println("\nDigite o nome do Switch: ");
+    System.out.print("Digite o nome do Switch: ");
     String name = input.next();
-    System.out.println("\nDigite o IP  de Destino do Switch: ");
-    String ip_origem = input.next();
-    System.out.println("\nDigite o IP  de Origem do Switch: ");
-    String ip_destino = input.next();
-    System.out.println("\nDigite o MAC  de Destino do Switch: ");
-    String mac_origem = input.next();
-    System.out.println("\nDigite o MAC  de Origem do Switch: ");
-    String mac_destino = input.next();
-    System.out.println("\nDigite o netmask do Switch: ");
+    System.out.print("Digite o IP de Destino do Switch: ");
+    String ipDestino = input.next();
+    System.out.print("Digite o IP de Origem do Switch: ");
+    String ipOrigem = input.next();
+    System.out.print("Digite o MAC de Destino do Switch: ");
+    String macDestino = input.next();
+    System.out.print("Digite o MAC de Origem do Switch: ");
+    String macOrigem = input.next();
+    System.out.print("Digite o netmask do Switch: ");
     String netmask = input.next();
-    System.out.println("\nDigite o DNS do Switch: ");
+    System.out.print("Digite o DNS do Switch: ");
     String dns = input.next();
-    System.out.println("\nDigite o protocolo do Switch: ");
+    System.out.print("Digite o protocolo do Switch: ");
     String protocolo = input.next();
+    
+    // Cria o Switch com as informações coletadas
+    Switch switchDevice = new Switch(id, name, ipOrigem, ipDestino, macOrigem, macDestino, netmask, dns, protocolo);
 
-    Device switchDevice = new Switch(id, name, ip_origem, ip_destino, mac_origem, mac_destino, netmask, dns, protocolo);
+    // Adiciona informações sobre as portas
+    System.out.print("Quantas portas o switch tem? ");
+    int numberOfPorts = input.nextInt();
+    input.nextLine(); // Consumir a quebra de linha
+    
+    // Usaremos um HashMap temporário para armazenar as informações das portas
+    HashMap<String, String> ports = new HashMap<>();
+    for (int i = 0; i < numberOfPorts; i++) {
+        System.out.print("Digite o número da porta " + (i + 1) + ": ");
+        String portNumber = input.nextLine();
+        System.out.print("Digite o tipo (entrada/saída) da porta " + portNumber + ": ");
+        String type = input.nextLine();
+        ports.put(portNumber, type);
+    }
+
+    // Aqui você pode adicionar uma maneira de armazenar as portas no objeto switchDevice
+    // Isso pode ser um método na classe Switch ou você pode expandir a classe Switch para incluir esta funcionalidade
+    // Exemplo: switchDevice.setPorts(ports);
 
     devices.add(switchDevice);
-
-    System.out.println("\033[0m"); // volta a cor padrão do terminal
+    System.out.println("Switch adicionado com sucesso!");
+    System.out.println("\033[0m"); // Volta a cor padrão do terminal
 }
 
 

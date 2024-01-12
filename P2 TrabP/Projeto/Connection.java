@@ -15,7 +15,8 @@ public class Connection extends Main{
      *
      * @param source      O dispositivo de origem da conexão
      * @param destination O dispositivo de destino da conexão
-     * @param type        O tipo da conexão
+     * @param tipo        O tipo da conexão
+     * @param connection Conecção
      */
     
     public Connection(Device source, Device destination, TipoInternet tipo, String connection) {

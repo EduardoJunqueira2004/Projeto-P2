@@ -1,21 +1,37 @@
 // Arquivo: Switch.java
+import java.util.HashMap;
 
+// Arquivo: Switch.java
 public class Switch extends Device {
     private String ipOrigem;
     private String ipDestino;
     private String macOrigem;
     private String macDestino;
     private String protocolo;
+    private HashMap<String, String> portas; // Adicionado para gerenciar as portas
 
-    // Ajuste os parâmetros conforme necessário e chame o construtor da superclasse Device
     public Switch(String id, String name, String ipOrigem, String ipDestino, String macOrigem, String macDestino, String netmask, String dns, String protocolo) {
-        
         super(id, name, ipOrigem, macOrigem, "gateway não especificado", netmask, dns); 
         this.ipOrigem = ipOrigem;
         this.ipDestino = ipDestino;
         this.macOrigem = macOrigem;
         this.macDestino = macDestino;
         this.protocolo = protocolo;
+        this.portas = new HashMap<>(); // Inicializa o HashMap de portas
+    }
+
+    // Métodos para gerenciar portas
+    public void addPorta(String numeroPorta, String tipo) {
+        portas.put(numeroPorta, tipo);
+    }
+    public boolean isOpened(String porta) {
+        return portas.containsKey(porta);
+    }
+    public String getTipoPorta(String porta) {
+        return portas.get(porta);
+    }
+    public void removePorta(String porta) {
+        portas.remove(porta);
     }
 
     // Implemente os métodos get e set conforme necessário

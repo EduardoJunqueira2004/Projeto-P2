@@ -1,16 +1,8 @@
-ID: 1
-Nome: Sergio
-IP: 192.168.0.5
-MAC: ABCD
-Gateway: 255.255.255.0
-Netmask: 255.255.255.0
-DNS: 8.8.8.8
-
-ID: 2
-Nome: Pedro
-IP: 192.168.0.6
-MAC: ABCD
-Gateway: 255.255.255.0
-Netmask: 255.255.255.0
-DNS: 8.8.8.8
+ID: 3
+Nome: 3
+IP: 3
+MAC: 3
+Gateway: gateway não especificado
+Netmask: 3
+DNS: 3
 
