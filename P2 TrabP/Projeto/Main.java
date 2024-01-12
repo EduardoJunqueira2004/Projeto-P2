@@ -49,6 +49,9 @@ do {
                 removeAllDevices(dispositivos, input);
                 break;
             case 8:
+                updateDevices(dispositivos);
+                break;
+            case 9:
                 System.out.println("Saindo do programa...");
                 input.close(); // Fechar o scanner antes de sair
                 System.exit(0); // Sai do programa
@@ -80,7 +83,8 @@ do {
          System.out.println("\n\t║                        5 - Listar Dispositivos na rede                                           ║");
          System.out.println("\n\t║                        6 - Relátorio Dispositivos TXT                                            ║");
          System.out.println("\n\t║                        7 - Remover Todos os Dispositivos                                         ║");  
-         System.out.println("\n\t║                        8 - Sair                                                                  ║");                                               
+         System.out.println("\n\t║                        8 - Alterar Todos os Dispositivos                                         ║");
+         System.out.println("\n\t║                        9 - Sair                                                                  ║");                                               
          System.out.println("\n\t║                                                                                                  ║");
          System.out.println("\n\t║                                                                                                  ║");
          System.out.println("\n\t╚══════════════════════════════════════════════════════════════════════════════════════════════════╝");
@@ -292,6 +296,78 @@ private static void listDevicesTxt(ArrayList<Device> devices) {
     } catch (IOException e) {
         System.out.println("Erro ao criar arquivo de dispositivos!\n");
     }
+}private static void updateDevices(ArrayList<Device> devices) {
+    Scanner inputalterar = new Scanner(System.in);
+    clearScreen();
+    System.out.println("\033[1;36m"); // Cor azul ciano
+    System.out.println("Update de um novo computador:");
+
+    System.out.print("Digite o ID do computador: ");
+    String id = inputalterar.next();
+
+    // Encontrar o dispositivo pelo ID
+    Device deviceToUpdate = null;
+    for (Device d : devices) {
+        if (d.getId().equals(id)) {
+            deviceToUpdate = d;
+            break;
+        }
+    }
+
+    // Se não encontrar o dispositivo, retorna
+    if (deviceToUpdate == null) {
+        System.out.println("Erro: Nenhum computador com esse ID foi encontrado.");
+        System.out.println("1 - Voltar ao menu principal");
+        System.out.println("2 - Sair do programa");
+        System.out.print("Escolha uma opção: ");
+        int option = 0;
+        boolean validOption = false;
+        while (!validOption) {
+            try {
+                option = inputalterar.nextInt();
+                validOption = true;
+            } catch (InputMismatchException e) {
+                System.out.println("Por favor, insira um número válido.");
+                inputalterar.next(); // Limpa o buffer do scanner
+            }
+        }
+        switch (option) {
+            case 1:
+                return; // Retorna ao menu principal
+            case 2:
+                System.out.println("Saindo do programa...");
+                inputalterar.close(); // Fechar o scanner antes de sair
+                System.exit(0); // Sai do programa
+            default:
+                System.out.println("Opção inválida. Retornando ao menu principal.");
+                return;
+        }
+    
+    }
+
+    // Continuar com a atualização
+    System.out.print("Digite o nome do computador: ");
+    String name = inputalterar.next();
+    System.out.print("Digite o IP do computador: ");
+    String ip = inputalterar.next();
+    System.out.print("Digite o MAC do computador: ");
+    //String mac = inputalterar.next();
+    System.out.print("Digite o gateway do computador: ");
+    String gateway = inputalterar.next();
+    System.out.print("Digite o netmask do computador: ");
+    String netmask = inputalterar.next();
+    System.out.print("Digite o DNS do computador: ");
+    String dns = inputalterar.next();
+    // Atualizar os valores da classe Device
+    deviceToUpdate.setName(name);
+    deviceToUpdate.setIP(ip);
+    //deviceToUpdate.setMac(mac);
+    deviceToUpdate.setGateway(gateway);
+    deviceToUpdate.setNetmask(netmask);
+    deviceToUpdate.setDns(dns);
+
+    System.out.println("Computador alterado com sucesso!");
+    System.out.println("\033[0m"); // Volta a cor padrão do terminal
 }
 
 private static void sendPacket(Device source, Device destination, String packetData) {
@@ -309,7 +385,7 @@ private static void sendPacket(Device source, Device destination, String packetD
         return;
     }
 
-    System.out.println(packetData);
+
 
     System.out.println("Pacote enviado de " + source.getName() + " para " + destination.getName() + " com dados: " + packetData);
     packetHistory.add(new Packet(source, destination, packetData));
