@@ -1,9 +1,13 @@
 //Superclasse Device.java 
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class Device extends Main{
 
     protected String id, name, IP,MAC, gateway, netmask, dns;
     protected TipoInternet tipoConexao;
+    private List<Device> connectedDevices = new ArrayList<>();
     
 
     // Construtor
@@ -19,7 +23,12 @@ public class Device extends Main{
 
 
     }
-     
+    
+
+    public void connectToDevice(Device device) {
+        connectedDevices.add(device);
+    }
+
     public Device() {
         this.tipoConexao = TipoInternet.NENHUMA; // valor padrão
     }
