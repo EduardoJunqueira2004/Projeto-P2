@@ -5,58 +5,65 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 import java.util.InputMismatchException;
-//Processa em cada switch e em cada Router para cada PC
 public class Main {
-
-    private static List<Packet> packetHistory = new ArrayList<>();
 
     public static void main(String[] args)  throws Exception{
         ArrayList<Device> dispositivos = new ArrayList<>();
         Scanner input = new Scanner(System.in);
 
-         do{
+        do {
             imprimirMenu();
             int opcao = input.nextInt();
 
-            switch (opcao) {
-                case 1:
-                    addComputer(dispositivos, input);
-                    break;
-                case 2:
-                    addRouter(dispositivos, input);
-                    break;
-                case 3:
-                    addSwitch(dispositivos, input);
-                    break;   
-                case 4:
-                   simulatePacketTransfer(dispositivos, input);
-                    break;    
-                case 5:
-                    listDevices(dispositivos, input);
-                    break;
-                case 6:
-                    listDevicesTxt(dispositivos);
-                    break;
-                case 7:
-                    System.out.println("Saindo...");
-                    input.close();
-                    return;
-                default:
-                    System.out.println("Opção inválida. Por favor, tente novamente.");
-                    break;
+            System.out.print("Escolha uma opção (1-7): ");
+            String linha = input.nextLine(); // Lê a linha inteira como uma string
+            try {
+                opcao = Integer.parseInt(linha); // Tenta converter a linha para um inteiro
+        
+                switch (opcao) {
+                    case 1:
+                        addComputer(dispositivos, input);
+                        break;
+                    case 2:
+                        addRouter(dispositivos, input);
+                        break;
+                    case 3:
+                        addSwitch(dispositivos, input);
+                        break;
+                    case 4:
+                        simulatePacketTransfer(dispositivos, input);
+                        break;
+                    case 5:
+                        listDevices(dispositivos, input);
+        
+                        break;
+                    case 6:
+                        listDevicesTxt(dispositivos);
+                        break;
+                    case 7:
+                        System.out.println("Saindo...");
+                        input.close();
+                        return; // Encerra o programa
+                    default:
+                        System.out.println("Opção inválida! Por favor, insira um número de 1 a 7.");
+                }
+            } catch (NumberFormatException e) {
+                System.out.println("Entrada inválida! Por favor, insira um número de 1 a 7.");
             }
-            } while (true);
+        } while (true);
+    }        
+            
 
-    }
+    public static void imprimirMenu() {
+        // Code for menu printing goes here
 
-    private static void imprimirMenu() {
         //Cor azul ciano
         System.out.println("\033[1;36m");
         //while(!(menuInicial >= '1' && menuInicial <= '4'));
 
         
         // MenuInicial Centro de Mecânica Rápida
-         
+        clearScreen();
          System.out.println("\n\t╔══════════════════════════════════════════════════════════════════════════════════════════════════╗");
          System.out.println("\n\t║==============================Menu de Gerenciamento de Dispositivos===============================║");
          System.out.println("\n\t║══════════════════════════════════════════════════════════════════════════════════════════════════╢");
@@ -66,10 +73,8 @@ public class Main {
          System.out.println("\n\t║                        3 - Adicionar Switch                                                      ║");
          System.out.println("\n\t║                        4 - Simulação Rede                                                        ║");
          System.out.println("\n\t║                        5 - Listar Dispositivos na rede                                           ║");
-         System.out.println("\n\t║                        6 - Relátorio Dispositivos TXT                                            ║");
-         System.out.println("\n\t║                        7 - Remover Todos os Dispositivos                                         ║");  
-         System.out.println("\n\t║                        8 - Sair                                                                  ║");                                               
-         System.out.println("\n\t║                                                                                                  ║");
+         System.out.println("\n\t║                        6 - Listar Dispositivos Ficheiro Txt                                      ║");                                        
+         System.out.println("\n\t║                        7 - Sair                                                                  ║");
          System.out.println("\n\t║                                                                                                  ║");
          System.out.println("\n\t╚══════════════════════════════════════════════════════════════════════════════════════════════════╝");
          System.out.println("\033[0m"); // volta a cor padrão do terminal
@@ -80,62 +85,29 @@ public class Main {
         
 
 //Para o computador
-private static void addComputer(ArrayList<Device> devices, Scanner input) {
+private static void addComputer(ArrayList<Device> devices, Scanner input)
+{
+    //Cor azul ciano
     clearScreen();
-    System.out.println("\033[1;36m"); // Cor azul ciano
-    System.out.println("Adicionando um novo computador:");
-    
-    System.out.print("Digite o ID do computador: ");
+        System.out.println("\033[1;36m");
+    System.out.println("Digite o ID do computador: ");
     String id = input.next();
-    System.out.print("Digite o nome do computador: ");
+    System.out.println("\nDigite o nome do computador: ");
     String name = input.next();
-    System.out.print("Digite o IP do computador: ");
+    System.out.println("\nDigite o IP do computador: ");
     String ip = input.next();
-
-    if (!isUniqueIdAndIp(devices, id, ip)) {
-        System.out.println("Erro: Um computador com esse ID ou IP já existe.");
-        System.out.println("1 - Voltar ao menu principal");
-        System.out.println("2 - Sair do programa");
-        System.out.print("Escolha uma opção: ");
-        
-        int option = 0;
-        boolean validOption = false;
-        while (!validOption) {
-            try {
-                option = input.nextInt();
-                validOption = true;
-            } catch (InputMismatchException e) {
-                System.out.println("Por favor, insira um número válido.");
-                input.next(); // Limpa o buffer do scanner
-            }
-        }
-
-        switch (option) {
-            case 1:
-                return; // Retorna ao menu principal
-            case 2:
-                System.out.println("Saindo do programa...");
-                input.close(); // Fechar o scanner antes de sair
-                System.exit(0); // Sai do programa
-            default:
-                System.out.println("Opção inválida. Retornando ao menu principal.");
-                return;
-        }
-    }
-
-    System.out.print("Digite o MAC do computador: ");
+    System.out.println("\nDigite o MAC do computador: ");
     String mac = input.next();
-    System.out.print("Digite o gateway do computador: ");
+    System.out.println("\nDigite o gateway do computador: ");
     String gateway = input.next();
-    System.out.print("Digite o netmask do computador: ");
+    System.out.println("\nDigite o netmask do computador: ");
     String netmask = input.next();
-    System.out.print("Digite o DNS do computador: ");
+    System.out.println("\nDigite o DNS do computador: ");
     String dns = input.next();
+    Device dispositivo = new Computer(id, name, ip, mac, gateway, netmask, dns);
+    devices.add(dispositivo);
+    System.out.println("\033[0m"); // volta a cor padrão do terminal
 
-    Device computer = new Computer(id, name, ip, mac, gateway, netmask, dns);
-    devices.add(computer);
-    System.out.println("Computador adicionado com sucesso!");
-    System.out.println("\033[0m"); // Volta a cor padrão do terminal
 }
 
 //Para o router
@@ -215,11 +187,11 @@ private static void listDevices(ArrayList<Device> devices, Scanner input) {
                 String deviceType = "Dispositivo"; // Tipo genérico se não for nenhum dos tipos conhecidos
 
                 if (device instanceof Computer) {
-                    deviceType = "Computador\n";
+                    deviceType = "Computador";
                 } else if (device instanceof Router) {
-                    deviceType = "Router\n";
+                    deviceType = "Router";
                 } else if (device instanceof Switch) {
-                    deviceType = "Switch\n";
+                    deviceType = "Switch";
                 }
 
                 System.out.println(deviceType + ": " + device);
@@ -265,83 +237,65 @@ private static void listDevices(ArrayList<Device> devices, Scanner input) {
 
     
 private static void listDevicesTxt(ArrayList<Device> devices) {
-    try {
-        clearScreen();
-        String nomeArquivoDevices = "dispositivos.txt";
-        BufferedWriter writer = new BufferedWriter(new FileWriter(nomeArquivoDevices));
-        for (Device device : devices) {
-            writer.write(device.toString());
-            writer.newLine();
+        try {
+            clearScreen();
+            String nomeArquivo = "dispositivos.txt";
+            BufferedWriter writer = new BufferedWriter(new FileWriter(nomeArquivo));
+            for (Device device : devices) {
+                writer.write(device.toString());
+                writer.newLine();
+            }
+            writer.close();
+            System.out.println("Arquivo criado com sucesso!\n");
+        } catch (IOException e) {
+            System.out.println("Erro ao criar arquivo!\n");
         }
-        writer.close();
-        System.out.println("Arquivo de dispositivos criado com sucesso!\n");
-
-        // Escrevendo o histórico de pacotes em um arquivo separado
-        String nomeArquivoPackets = "historico_pacotes.txt";
-        writePacketHistoryToFile(nomeArquivoPackets);
-
-    } catch (IOException e) {
-        System.out.println("Erro ao criar arquivo de dispositivos!\n");
     }
-}
+
 
 private static void sendPacket(Device source, Device destination, String packetData) {
-    
     clearScreen();
     System.out.println("Enviando pacote de " + source.getName() + " para " + destination.getName() + " com dados: " + packetData);
-
+    
     if (!source.getNetmask().equals(destination.getNetmask())) {
         System.out.println("Os dispositivos não estão na mesma sub-rede.");
         return;
     }
-
+    
     if (!isReachable(source, destination)) {
         System.out.println("Dispositivo de destino não está acessível.");
         return;
     }
-
+    
     System.out.println("Pacote enviado de " + source.getName() + " para " + destination.getName() + " com dados: " + packetData);
-    packetHistory.add(new Packet(source, destination, packetData));
 }
 
 private static void simulatePacketTransfer(ArrayList<Device> devices, Scanner input) {
     clearScreen();
-    System.out.println("\033[1;36m"); // Cor azul ciano
-    System.out.println("Dispositivos disponíveis e seus IPs:");
-    
-    if (devices.isEmpty()) {
-        System.out.println("Nenhum dispositivo cadastrado.");
-        return; // Retorna ao menu anterior se não houver dispositivos
-    }
-    
-    // Listando todos os dispositivos com seus IPs
-    for (Device device : devices) {
-        System.out.println(device.getName() + " - IP: " + device.getIP());
-    }
-
-    System.out.println("Digite o IP do dispositivo de origem para a simulação de envio de pacotes:");
-    String sourceIp = input.next();
-    System.out.println("Digite o IP do dispositivo de destino:");
-    String destinationIp = input.next();
-    System.out.println("Digite os dados do pacote:");
+    System.out.println("\033[1;36m");
+    System.out.println("Simulação de envio de pacotes");
+    System.out.println("Digite o ID do dispositivo de origem: ");
+    String sourceId = input.next();
+    System.out.println("Digite o ID do dispositivo de destino: ");
+    String destinationId = input.next();
+    System.out.println("Digite os dados do pacote: ");
     String packetData = input.next();
 
-    Device source = findDeviceByIp(devices, sourceIp);
-    Device destination = findDeviceByIp(devices, destinationIp);
+    Device source = findDeviceById(devices, sourceId);
+    Device destination = findDeviceById(devices, destinationId);
 
     if (source != null && destination != null) {
         sendPacket(source, destination, packetData);
     } else {
-        System.out.println("Dispositivo com o IP fornecido não encontrado.");
+        System.out.println("Dispositivo não encontrado.");
     }
 
-    System.out.println("\033[0m"); // Volta a cor padrão do terminal
+    System.out.println("\033[0m");
 }
 
-
-private static Device findDeviceByIp(ArrayList<Device> devices, String ip) {
+private static Device findDeviceById(ArrayList<Device> devices, String id) {
     for (Device device : devices) {
-        if (device.getIP().equals(ip)) {
+        if (device.getId().equals(id)) {
             return device;
         }
     }
@@ -349,8 +303,14 @@ private static Device findDeviceByIp(ArrayList<Device> devices, String ip) {
 }
 
 private static boolean isReachable(Device source, Device destination) {
-    return source.getNetmask().equals(destination.getNetmask());
+    for (Connection connection : source.getConnections()) {
+        if (connection.getDestination().equals(destination)) {
+            return true;
+        }
+    }
+    return false;
 }
+
 
 public static void clearScreen() {
     try {
@@ -368,47 +328,6 @@ public static void clearScreen() {
     } catch (IOException | InterruptedException ex) {
         ex.printStackTrace();
     }
-}
-
-private static void removeAllDevices(ArrayList<Device> dispositivos, Scanner input) {
-    clearScreen();
-    System.out.println("\033[1;36m");
-    System.out.println("Tem certeza de que deseja remover todos os dispositivos? (sim/não)");
-    String resposta = input.next().trim().toLowerCase();
-    if (resposta.equals("sim")) {
-        dispositivos.clear();
-        System.out.println("Todos os dispositivos foram removidos.");
-    } else {
-        System.out.println("A remoção de todos os dispositivos foi cancelada.");
-    }
-}
-
-//funçºao para editar alldevices
-
-
-
-private static void writePacketHistoryToFile(String nomeArquivo) {
-    ArrayList<Packet> packetHistory = new ArrayList<>(); // Declare and initialize packetHistory variable
-    
-    try (BufferedWriter writer = new BufferedWriter(new FileWriter(nomeArquivo, true))) { // O true é para append
-        for (Packet packet : packetHistory) {
-            writer.write(packet.toString());
-            writer.newLine();
-        }
-        System.out.println("Histórico de pacotes gravado em: " + nomeArquivo);
-    } catch (IOException e) {
-        System.out.println("Erro ao escrever o histórico de pacotes no arquivo.");
-        e.printStackTrace();
-    }
-}
-
-private static boolean isUniqueIdAndIp(ArrayList<Device> devices, String id, String ip) {
-    for (Device device : devices) {
-        if (device.getId().equals(id) || device.getIP().equals(ip)) {
-            return false; // Encontrou um dispositivo com o mesmo ID ou IP
-        }
-    }
-    return true; // ID e IP são únicos
 }
 
 }
