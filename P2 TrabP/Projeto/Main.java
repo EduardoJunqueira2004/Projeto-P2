@@ -309,6 +309,8 @@ private static void sendPacket(Device source, Device destination, String packetD
         return;
     }
 
+    System.out.println(packetData);
+
     System.out.println("Pacote enviado de " + source.getName() + " para " + destination.getName() + " com dados: " + packetData);
     packetHistory.add(new Packet(source, destination, packetData));
 }
