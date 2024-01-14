@@ -1,3 +1,7 @@
+/*
+ * Classe Packet 
+ * Aqui nesta classe é possível Adicionar os pacotes de envio de dados
+ */
 public class Packet {
     private Device source;
     private Device destination;

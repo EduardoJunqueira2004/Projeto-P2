@@ -1,3 +1,7 @@
+/*
+ * Classe Main que é a classe responsável por executar o progama deste projeto
+ * Aqui nesta classe é possível chamar métodos criar arrays criar a interface do projeto, interagir com o utilizador através do Menu criado e as diferentes opções de escolha
+ */
 import java.util.Scanner;
 import java.io.BufferedWriter;
 import java.io.FileWriter;

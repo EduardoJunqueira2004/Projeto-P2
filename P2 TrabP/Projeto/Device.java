@@ -1,4 +1,7 @@
-//Superclasse Device.java 
+/*
+ * SuperClasse Device
+ * Aqui nesta classe é possível Gerenciar todos os dispositivos da rede
+ */
 
 import java.util.ArrayList;
 import java.util.List;
@@ -19,7 +22,6 @@ public class Device extends Main{
         this.gateway = gateway;
         this.netmask = netmask;
         this.dns = dns;
-       // System.out.println("Device created with ID: " + this.getId());
 
 
     }

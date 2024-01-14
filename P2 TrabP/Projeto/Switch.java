@@ -1,7 +1,10 @@
-// Arquivo: Switch.java
-import java.util.HashMap;
+/*
+ * Classe Switch que herda tudo de Device
+ * Aqui nesta classe é possível Adicionar Switch.
+ */
 
-// Arquivo: Switch.java
+
+import java.util.HashMap;//Usamos o HasMap nesta classe
 public class Switch extends Device {
     private String ipOrigem;
     private String ipDestino;
@@ -10,8 +13,14 @@ public class Switch extends Device {
     private String protocolo;
     private HashMap<String, String> portas; // Adicionado para gerenciar as portas
 
-    public Switch(String id, String name, String ipOrigem, String ipDestino, String macOrigem, String macDestino, String netmask, String dns, String protocolo) {
-        super(id, name, ipOrigem, macOrigem, "gateway não especificado", netmask, dns); 
+    public Switch(String id, String name, String gateway,String ipOrigem, String ipDestino, String macOrigem, String macDestino, String netmask, String dns, String protocolo) {
+        /*
+    *Construtor da classe Switch.
+    *Este construtor será chamado quando um novo objeto Switch for criado.
+    *Ele recebe vários parâmetros que são passados para o construtor da classe base Device através da palavra-chave 'super'.
+    *Também é aplicado aqui o polimorfismo onde é implementado mais Variáveis que não estão defenidas na classe super Device.
+     */
+        super(id, name, ipOrigem, macOrigem, gateway, netmask, dns); 
         this.ipOrigem = ipOrigem;
         this.ipDestino = ipDestino;
         this.macOrigem = macOrigem;
