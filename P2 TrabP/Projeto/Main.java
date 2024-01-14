@@ -14,19 +14,25 @@ import java.util.Random;
 
 //Processa em cada switch e em cada Router para cada PC
 public class Main {
+// Lista para manter um histórico dos pacotes que foram transferidos na rede.
+private static List<Packet> packetHistory = new ArrayList<>();
+// Utilitário para gerar números aleatórios, como IPs aleatórios.
+private static Random random = new Random();
 
-    private static List<Packet> packetHistory = new ArrayList<>();
-    private static Random random = new Random();
-
+/**
+ * Método principal que inicia o programa.
+ */
     public static void main(String[] args)  throws Exception{
+        // Lista para armazenar dispositivos na rede.
         ArrayList<Device> dispositivos = new ArrayList<>();
+        // Scanner para ler a entrada do utilizador.
         Scanner input = new Scanner(System.in);
 
 do {
     
     clearScreen();
     imprimirMenu();
-    System.out.print("Escolha uma opção (1-8): ");
+    System.out.print("Escolha uma opção (1-9): ");
     String linha = input.nextLine(); // Lê a linha inteira como uma string
     int opcao;
     try {
@@ -63,10 +69,10 @@ do {
                 System.exit(0); // Sai do programa
                 break;
             default:
-                System.out.println("Opção inválida! Por favor, insira um número de 1 a 8.");
+                System.out.println("Opção inválida! Por favor, insira um número de 1 a 9.");
         }
     } catch (NumberFormatException e) {
-        System.out.println("Entrada inválida! Por favor, insira um número de 1 a 8.");
+        System.out.println("Entrada inválida! Por favor, insira um número de 1 a 9.");
     }
 } while (true);
     }
@@ -76,7 +82,7 @@ do {
     
 
         
-        // MenuInicial Centro de Mecânica Rápida
+        // MenuInicial De gerenciamento de Dispositivos da Rede
          
          System.out.println("\n\t╔══════════════════════════════════════════════════════════════════════════════════════════════════╗");
          System.out.println("\n\t║==============================Menu de Gerenciamento de Dispositivos===============================║");
@@ -160,10 +166,9 @@ private static void addComputer(ArrayList<Device> devices, Scanner input) {
 
 //Para o router
 private static void addRouter(ArrayList<Device> devices, Scanner input) {
-   //Cor azul ciano
-        System.out.println("\033[1;36m");
-
     clearScreen();
+    System.out.println("\033[1;36m"); // Cor azul ciano
+    System.out.println("Adicionando um novo  Router:");
 
     System.out.println("Digite o ID do roteador: ");
     String id = input.next();
@@ -187,7 +192,9 @@ private static void addRouter(ArrayList<Device> devices, Scanner input) {
 }
 
 private static void addSwitch(ArrayList<Device> devices, Scanner input) {
-    System.out.println("\033[1;36m");
+    clearScreen();
+    System.out.println("\033[1;36m"); // Cor azul ciano
+    System.out.println("Adicionando um novo Switch:");
 
     System.out.print("Digite o ID do Switch: ");
     String id = input.next();
@@ -207,15 +214,17 @@ private static void addSwitch(ArrayList<Device> devices, Scanner input) {
     String dns = input.next();
     System.out.print("Digite o protocolo do Switch: ");
     String protocolo = input.next();
-    
+    System.out.print("Digite o gateway do Switch: "); // Add this line
+    String gateway = input.next(); // Add this line
+
     // Cria o Switch com as informações coletadas
-    Switch switchDevice = new Switch(id, name, ipOrigem, ipDestino, macOrigem, macDestino, netmask, dns, protocolo);
+    Switch switchDevice = new Switch(id, name, ipOrigem, ipDestino, macOrigem, gateway, macDestino, netmask, dns, protocolo);
 
     // Adiciona informações sobre as portas
     System.out.print("Quantas portas o switch tem? ");
     int numberOfPorts = input.nextInt();
     input.nextLine(); // Consumir a quebra de linha
-    
+
     // Usaremos um HashMap temporário para armazenar as informações das portas
     HashMap<String, String> ports = new HashMap<>();
     for (int i = 0; i < numberOfPorts; i++) {

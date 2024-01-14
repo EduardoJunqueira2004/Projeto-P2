@@ -1,8 +1,56 @@
+ID: 1
+Nome: PC3
+IP: 23343344
+MAC: 255.255.255.255
+Gateway: 233
+Netmask: 322332
+DNS: 3223
+
+ID: 2
+Nome: PC"
+IP: 68.97.108.167
+MAC: 255.255.233
+Gateway: 3223
+Netmask: 3223
+DNS: 3232
+
 ID: 3
-Nome: 3
-IP: 3
-MAC: 3
-Gateway: gateway não especificado
-Netmask: 3
-DNS: 3
+Nome: PC3
+IP: 155.108.136.131
+MAC: 323
+Gateway: 2323
+Netmask: 32
+DNS: 32
+
+ID: 1
+Nome: R1
+IP: 95.59.85.197
+MAC: 232332
+Gateway: 3232
+Netmask: 3232
+DNS: 3232
+
+ID: 2
+Nome: R2
+IP: 238.189.162.47
+MAC: 434
+Gateway: 3223
+Netmask: 212
+DNS: 434345
+
+ID: 3
+Nome: R3
+IP: 231.200.177.78
+MAC: 4334
+Gateway: 2332
+Netmask: 232332
+DNS: 3443
+
+ID: S1
+Nome: S1
+IP: 192.176.182
+MAC: 32324
+Gateway: 163.256.243
+Netmask: 2323324
+DNS: 3223
 
