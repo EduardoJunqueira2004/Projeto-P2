@@ -184,6 +184,9 @@ private static void addSwitch(ArrayList<Device> devices, Scanner input)
     String id = input.next();
     System.out.println("\nDigite o nome do Switch: ");
     String name = input.next();
+    System.out.println("Digite a porta que deseja conectar o Switch: ");
+    String porta = input.next();
+    
     System.out.println("\nDigite o IP  de Destino do Switch: ");
     String ip_origem = input.next();
     System.out.println("\nDigite o IP  de Origem do Switch: ");

@@ -6,11 +6,13 @@ public class Switch extends Device {
     private String macOrigem;
     private String macDestino;
     private String protocolo;
+    private Integer portas;
 
     // Ajuste os parâmetros conforme necessário e chame o construtor da superclasse Device
-    public Switch(String id, String name, String ipOrigem, String ipDestino, String macOrigem, String macDestino, String netmask, String dns, String protocolo) {
+    public Switch(String id, String name, String ipOrigem, String ipDestino, String macOrigem, String macDestino, String netmask, String dns, String protocolo,Integer portas) {
         
-        super(id, name, ipOrigem, macOrigem, "gateway não especificado", netmask, dns); 
+        super(id, name, ipOrigem, macOrigem, "gateway não especificado", netmask, dns,); 
+        this.portas = portas;
         this.ipOrigem = ipOrigem;
         this.ipDestino = ipDestino;
         this.macOrigem = macOrigem;
