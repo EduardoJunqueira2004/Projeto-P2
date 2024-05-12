@@ -202,7 +202,7 @@ private static void addSwitch(ArrayList<Device> devices, Scanner input)
     System.out.println("\nDigite o protocolo do Switch: ");
     String protocolo = input.next();
 
-    Device switchDevice = new Switch(id, name, ip_origem, ip_destino, mac_origem, mac_destino, netmask, dns, protocolo);
+    Device switchDevice = new Switch(id, name, ip_origem, ip_destino, mac_origem, mac_destino, netmask, dns, protocolo, null);
 
     devices.add(switchDevice);
 
