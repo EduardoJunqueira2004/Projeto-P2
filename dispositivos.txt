@@ -1,16 +1,16 @@
 ID: 25
-Nome: Sergio
-IP: 5.10.57.139
-MAC: ABCD
-Gateway: 192.1.1.1
+Nome: Killian
+IP: 145.222.43.70
+MAC: AFDGH
+Gateway: 145.22.43.71
 Netmask: 255.255.255.0
-DNS: 1.1.1.1
+DNS: 8.8.8.8
 
-ID: 34
-Nome: Router
-IP: 242.185.70.153
-MAC: ABCD
-Gateway: 192.0.0.1
+ID: 2
+Nome: Killian
+IP: 31.209.202.185
+MAC: router
+Gateway: 142.134.53.234
 Netmask: 255.255.255.0
-DNS: 1.1.1.1
+DNS: 8.8.8.8
 
